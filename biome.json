@@ -27,8 +27,11 @@
 			},
 			"style":{
 				"noNonNullAssertion":"info",
-				"useNodejsImportProtocol":"info"
+				"useNodejsImportProtocol":"info",
+				"useImportType":"off"
+
 			}
+			
 			
 		}
 	},
@@ -41,7 +44,7 @@
 		"enabled": true,
 		"actions": {
 			"source": {
-				"organizeImports": "on"
+				"organizeImports": "off"
 			}
 		}
 	}
