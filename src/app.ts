@@ -1,11 +1,12 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { type Application, type Request, type Response } from "express";
+import express, { NextFunction, type Application, type Request, type Response } from "express";
 import httpStatus from "http-status";
 import config from "./app/config";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
+import z from "zod";
 
 const app: Application = express();
 
@@ -32,6 +33,38 @@ app.get("/", async (req: Request, res: Response) => {
 		message: "Welcome to PH Healthcare System Backend",
 	});
 });
+
+// ***Exploring zod validation 
+
+// app.post("/zod", async (req: Request, res: Response,next:NextFunction) => {
+
+
+
+// try {
+// 	const UserZodSchema = z.object({
+//     name: z.string().optional(),
+//     age: z.number().optional(),
+//     isVerified: z.boolean().optional(),
+//     books: z.array(z.string()).optional(),
+//   });
+
+//   const payload = req.body;
+
+//   const result = UserZodSchema.parse(payload);
+
+//   console.log(result)
+
+
+	
+// } catch (error) {
+// 	console.log(error)
+// 	next(error)
+// }
+// 	res.status(httpStatus.OK).json({
+// 		success: true,
+// 		message: "Welcome to PH Healthcare System Backend",
+// 	});
+// });
 
 app.use(globalErrorHandler);
 app.use(notFound);
