@@ -5,6 +5,7 @@ import config from "../config";
 import { prisma } from "../lib/prisma";
 import { catchAsync } from "../utils/catchAsync";
 import { jwtUtils } from "../utils/jwt";
+import z from "zod";
 
 declare global {
 	namespace Express {
@@ -76,3 +77,23 @@ export const auth = (...requiredRoles: Role[]) => {
 		next();
 	});
 };
+
+
+// validation request 
+export const zodValidationRequest=(zodSchema:z.ZodObject)=>{
+	return catchAsync((req: Request, res: Response, next: NextFunction) => {
+    try {
+      const payload = req.body;
+      const result =
+        zodSchema.safeParse(payload);
+      if (!result.success) {
+        throw new Error(result.error.issues[0].message);
+      }
+
+      req.body = result.data;
+    } catch (error) {
+      next(error);
+    }
+    next();
+  });
+}
