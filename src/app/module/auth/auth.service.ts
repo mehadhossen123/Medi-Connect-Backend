@@ -344,10 +344,21 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	
 };
 
+
+// forgot-password 
+const forgotPassword=async(payload:any)=>{
+	
+}
+const resetPassword=async(payload:any)=>{
+
+}
+
 export const AuthService = {
 	registerPatient,
 	loginUser,
 	getMe,
 	refreshToken,
-	googleLogin
+	googleLogin,
+	forgotPassword,
+	resetPassword
 };

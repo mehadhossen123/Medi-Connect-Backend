@@ -6,7 +6,11 @@ import config from "./app/config";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
-import z from "zod";
+
+import { client } from "./app/lib/redis";
+import crypto from "crypto"
+import { date } from "zod";
+
 
 const app: Application = express();
 
@@ -28,11 +32,35 @@ app.use("/api/v1/auth", AuthRoutes);
 
 // Basic route
 app.get("/", async (req: Request, res: Response) => {
-	res.status(httpStatus.OK).json({
-		success: true,
-		message: "Welcome to PH Healthcare System Backend",
-	});
+
+
+	try {
+
+		const otp=crypto.randomInt(100000,1000000)
+		 await client.set("forgot-password-otp:patine1@gmail.com", "123456", {
+       expiration: {
+         type: "EX",
+         value: 60,
+       },
+     });
+
+	 res.status(httpStatus.OK).json({
+     success: true,
+     message: "Welcome to PH Healthcare System Backend",
+     data: otp,
+   });
+		
+	} catch (error) {
+		console.log(error,"error form server.ts file")
+		
+	}
+	
 });
+
+
+// Redis route 
+
+
 
 // ***Exploring zod validation 
 
