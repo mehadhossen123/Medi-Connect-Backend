@@ -175,14 +175,14 @@ const forgotPassword = catchAsync(async (req: Request, res: Response) => {
 // reset-password
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
 	const payload=req.body;
-	const result=await AuthService.resetPassword(payload)
+	await AuthService.resetPassword(payload)
 
 	
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: "Change password successfully",
+		message: `OTP send to :${payload.email}`,
 		data: {
 			
 		},
