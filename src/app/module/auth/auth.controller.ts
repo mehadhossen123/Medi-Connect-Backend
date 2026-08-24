@@ -164,7 +164,7 @@ const forgotPassword = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: "Password find  successfully",
+		message: `OTP send to :${payload.email}`,
 		data: {
 			
 		},
@@ -182,10 +182,8 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: `OTP send to :${payload.email}`,
-		data: {
-			
-		},
+		message: "Password change successfully",
+		data:null
 	});
 });
 

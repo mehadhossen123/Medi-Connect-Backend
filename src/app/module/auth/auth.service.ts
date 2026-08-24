@@ -386,6 +386,57 @@ const forgotPassword=async(payload:IForgotPasswordPayload)=>{
 	})
 }
 const resetPassword=async(payload:IResetPasswordPayload)=>{
+	const { email ,otp ,newPassword} = payload;
+  const isExistUser = await prisma.user.findUnique({
+    where: { email },
+  });
+	if (!isExistUser) {
+    throw new Error("There is no user in this email");
+  }
+
+  if (isExistUser.status === "BLOCKED") {
+    throw new Error("User is Blocked");
+  }
+  if (!isExistUser.emailVerified) {
+    throw new Error("User not verified with this email");
+  }
+
+  if (isExistUser.isDeleted || isExistUser.status == "DELETED") {
+    throw new Error("User is deleted");
+  }
+
+  if (isExistUser.googleId && isExistUser.authProvider == "GOOGLE") {
+    throw new Error("User has already account with google");
+  }
+
+  const key = `forgot-password-otp:${isExistUser.email}`;
+  const getOtp=await client.get(key)
+
+  if(!getOtp){
+	throw new Error("OTP didn't found ")
+  }
+
+  if(otp!==getOtp){
+	throw new Error("OTP doesn't match")
+  }
+
+  const hashPassword = await bcrypt.hash(
+    newPassword,
+    Number(config.bcrypt_salt_rounds),
+  );
+
+  await prisma.user.update({
+	where:{
+		email:isExistUser.email
+	},
+	data:{
+		password:hashPassword
+	}
+  })
+
+  await client.del([key])
+
+  
 
 }
 
