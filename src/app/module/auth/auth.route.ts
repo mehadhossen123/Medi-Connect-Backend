@@ -30,7 +30,16 @@ router.post("/register",
 // 	next()
 
 // }
+
+
+
+
 ,AuthController.registerPatient);
+
+router.post("/email-verified",zodValidationRequest(patientZodValidation.emailVerifiedZodSchema),AuthController.emailVerificationPatient);
+
+
+
 router.post("/login", AuthController.loginUser);
 router.get(
 	"/me",

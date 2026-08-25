@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediConnect - Email verified OTP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e1e8ed;
+        }
+        .header {
+            background-color: #0070f3;
+            color: #ffffff;
+            text-align: center;
+            padding: 24px 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .body-content {
+            padding: 30px 25px;
+            text-align: center;
+        }
+        .body-content h2 {
+            font-size: 20px;
+            color: #111827;
+            margin-top: 0;
+        }
+        .body-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 25px;
+        }
+        .otp-box {
+            background-color: #f0f7ff;
+            border: 1px dashed #0070f3;
+            border-radius: 8px;
+            padding: 16px;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+        .otp-code {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: 8px;
+            color: #0070f3;
+            margin: 0;
+        }
+        .warning {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+        .footer {
+            background-color: #f9fafb;
+            text-align: center;
+            padding: 16px;
+            font-size: 12px;
+            color: #9ca3af;
+            border-top: 1px solid #f3f4f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>MediConnect</h1>
+            <p>Your Trusted Healthcare Partner</p>
+        </div>
+
+        <!-- Body Section -->
+        <div class="body-content">
+            <h2>Verify Your Email : <%= email %></h2>
+            <p>We received a request to verify your email for your <strong>MediConnect</strong> account. Please use the Verification Code (OTP) below to proceed:</p>
+            
+            <div class="otp-box">
+                <div class="otp-code"><%= OTP %></div>
+            </div>
+
+            <p>This code is valid for <strong>5 minutes</strong>. For security reasons, do not share this code with anyone.</p>
+            
+            <div class="warning">
+                If you didn't request a password reset, you can safely ignore this email. Your account remains secure.
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            &copy; <%= new Date().getFullYear() %> MediConnect Services. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>

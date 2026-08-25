@@ -57,6 +57,11 @@ const forgotPasswordZodSchema=z.object({
   email:z.email()
 })
 
+const emailVerifiedZodSchema=z.object({
+  email:z.email(),
+  otp:z.string()
+})
+
 
 
 
@@ -64,5 +69,6 @@ const forgotPasswordZodSchema=z.object({
 export const patientZodValidation = {
   UserRegisterZodSchema,
   resetPasswordZodSchema,
-  forgotPasswordZodSchema
+  forgotPasswordZodSchema,
+  emailVerifiedZodSchema
 };
