@@ -4,7 +4,9 @@ import type { JwtPayload, SignOptions } from "jsonwebtoken";
 import { AuthProvider, Role, UserStatus } from "../../../generated/prisma/enums";
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
+import path from "path"
 import { jwtUtils } from "../../utils/jwt";
+import ejs from "ejs"
 import type {
 	IForgotPasswordPayload,
 	IGoogleLoginPayload,
@@ -18,6 +20,7 @@ import { googleClient } from "../../lib/googleAuth";
 import { TokenPayload } from "google-auth-library";
 import crypto from "crypto"
 import { client } from "../../lib/redis";
+import { transporter } from "../../lib/nodemailer";
 
 const registerPatient = async (payload: IRegisterPatientPayload) => {
 	const { name, password } = payload;
@@ -32,6 +35,7 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
 	}
 
 	const hashedPassword = await bcrypt.hash(password, 8);
+	// 
 
 	const createdUser = await prisma.user.create({
 		data: {
@@ -367,11 +371,11 @@ const forgotPassword=async(payload:IForgotPasswordPayload)=>{
 		throw new Error("User not verified with this email")
 	}
 
-	if(isExistUser.isDeleted|| isExistUser.status=="DELETED"){
+	if(isExistUser.isDeleted|| isExistUser.status==="DELETED"){
 		throw new Error("User is deleted")
 	}
 
-	if(isExistUser.googleId&& isExistUser.authProvider=="GOOGLE"){
+	if(isExistUser.googleId&& isExistUser.authProvider==="GOOGLE"){
 		throw new Error("User has already account with google")
 	}
 
@@ -384,6 +388,20 @@ const forgotPassword=async(payload:IForgotPasswordPayload)=>{
 			value:5*60
 		}
 	})
+	const templatePath=path.join(process.cwd(),"/src/app/templete/forgot-templete.ejs")
+
+    const html=await ejs.renderFile(templatePath,{
+		OTP:otp
+	})
+	// send email with otp 
+	await transporter.sendMail({
+		from:config.smtp_user,
+		to:isExistUser.email,
+		subject:"MediConnect forgot password OTP",
+		html
+	})
+
+
 }
 const resetPassword=async(payload:IResetPasswordPayload)=>{
 	const { email ,otp ,newPassword} = payload;
@@ -401,11 +419,11 @@ const resetPassword=async(payload:IResetPasswordPayload)=>{
     throw new Error("User not verified with this email");
   }
 
-  if (isExistUser.isDeleted || isExistUser.status == "DELETED") {
+  if (isExistUser.isDeleted || isExistUser.status === "DELETED") {
     throw new Error("User is deleted");
   }
 
-  if (isExistUser.googleId && isExistUser.authProvider == "GOOGLE") {
+  if (isExistUser.googleId && isExistUser.authProvider === "GOOGLE") {
     throw new Error("User has already account with google");
   }
 
@@ -435,6 +453,24 @@ const resetPassword=async(payload:IResetPasswordPayload)=>{
   })
 
   await client.del([key])
+
+  const templatePath = path.join(
+    process.cwd(),
+    "/src/app/templete/change-password.ejs",
+  );
+
+  const html = await ejs.renderFile(templatePath,{
+	name:isExistUser.name
+	
+  });
+
+
+  await transporter.sendMail({
+    from: config.smtp_user,
+    to: isExistUser.email,
+    subject: "MediConnect forgot password OTP",
+    html
+  });
 
   
 
