@@ -469,6 +469,7 @@ const resetPassword = async (payload: IResetPasswordPayload) => {
 // verify email for patient 
 
 const emailVerifyForPatient=async(payload:IEmailVerifyPayload)=>{
+
   const email = payload.email.trim().toLowerCase();
   const otp = payload.otp;
 
@@ -527,6 +528,29 @@ const emailVerifyForPatient=async(payload:IEmailVerifyPayload)=>{
       omit: { password: true },
       include: { patient: true },
     });
+
+	await client.del(patientRegisterKey)
+
+	// welcome message 
+
+
+	const templatePath = path.join(
+    process.cwd(),
+    "/src/app/templete/welcome.ejs",
+  );
+
+  const html = await ejs.renderFile(templatePath, {
+    name: payloadUser.name,
+  });
+
+  await transporter.sendMail({
+    from: config.smtp_user,
+    to: payloadUser.email,
+    subject: "Welcome to MediConnect",
+    html,
+  });
+
+	
 
     const { patient, ...user } = createdUser;
     const jwtPayload = {

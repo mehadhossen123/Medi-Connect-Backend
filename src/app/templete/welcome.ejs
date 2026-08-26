@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MediConnect</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            padding: 25px 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+        .content {
+            padding: 30px 25px;
+            color: #333333;
+            line-height: 1.6;
+        }
+        .content h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 15px;
+            font-size: 13px;
+            color: #777777;
+            border-top: 1px solid #eeeeee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="email-container">
+        <div class="header">
+            <h1>MediConnect</h1>
+        </div>
+        <div class="content">
+            <h2>Welcome aboard!</h2>
+            <p>Hello <strong><%= name %></strong>,</p>
+            <p>Welcome to <strong>MediConnect</strong>! We are thrilled to have you with us. Your account has been created successfully.</p>
+            <p>With MediConnect, you can easily manage your healthcare needs, book appointments with top doctors, and keep track of your health records securely.</p>
+            <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+            <br>
+            <p>Best Regards,<br><strong>The MediConnect Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>&copy; <%= new Date().getFullYear() %> MediConnect. All rights reserved.</p>
+        </div>
+    </div>
+
+</body>
+</html>
