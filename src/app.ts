@@ -9,7 +9,8 @@ import { AuthRoutes } from "./app/module/auth/auth.route";
 
 import { client } from "./app/lib/redis";
 import crypto from "crypto"
-import { date } from "zod";
+import { userRoute } from "./app/module/user/user.route";
+
 
 
 const app: Application = express();
@@ -21,6 +22,7 @@ app.use(
 	}),
 );
 
+
 // Enable URL-encoded form data parsing
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,6 +31,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/user",userRoute)
 
 // Basic route
 app.get("/", async (req: Request, res: Response) => {
@@ -36,18 +39,12 @@ app.get("/", async (req: Request, res: Response) => {
 
 	try {
 
-		const otp=crypto.randomInt(100000,1000000)
-		 await client.set("forgot-password-otp:patine1@gmail.com", "123456", {
-       expiration: {
-         type: "EX",
-         value: 60,
-       },
-     });
+		
 
 	 res.status(httpStatus.OK).json({
      success: true,
      message: "Welcome to PH Healthcare System Backend",
-     data: otp,
+     data: null,
    });
 		
 	} catch (error) {
