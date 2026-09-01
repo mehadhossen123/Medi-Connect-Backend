@@ -7,9 +7,11 @@ import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
 
-import { client } from "./app/lib/redis";
-import crypto from "crypto"
+
+
 import { userRoute } from "./app/module/user/user.route";
+import { getBkashIdToken } from "./app/lib/bkash";
+import { appointmentRoute } from "./app/module/appointment/appointment.route";
 
 
 
@@ -32,6 +34,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/user",userRoute)
+app.use("/api/v1/appointment",appointmentRoute)
 
 // Basic route
 app.get("/", async (req: Request, res: Response) => {
@@ -39,7 +42,8 @@ app.get("/", async (req: Request, res: Response) => {
 
 	try {
 
-		
+		const result=await getBkashIdToken();
+		console.log(result)
 
 	 res.status(httpStatus.OK).json({
      success: true,
