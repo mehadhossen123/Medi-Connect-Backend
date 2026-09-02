@@ -8,7 +8,9 @@ const router=Router();
 
 
 router.post("/book-appointment",appointmentController.bookAppointment)
-router.get("/book-appointment/payment/callback",()=>{});
+router.get("/book-appointment/payment/callback",
+  appointmentController.bookAppointmentCallBackUrl,
+);
 
 
 
