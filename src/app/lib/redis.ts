@@ -1,10 +1,11 @@
 import { createClient } from "redis";
+import config from "../config";
 
 export const client = createClient({
   username: "default",
-  password: "68LXLGSdyiW9tHAtPj0uSbD7acUFLhP2",
+  password: config.redis_password,
   socket: {
-    host: "cause-accordant-joyous-52600.db.redis.io",
-    port: 18799,
+    host: config.redis_host,
+    port: 17947,
   },
 });

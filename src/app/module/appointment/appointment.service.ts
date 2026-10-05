@@ -25,6 +25,8 @@ const bookAppointment=async()=>{
           Authorization: idToken,
           "X-App-Key": config.bkash_app_key,
         },
+
+        
         body: JSON.stringify({
          
           mode: "0011",
@@ -46,6 +48,11 @@ const bookAppointment=async()=>{
     return creaateBkashPaymentResult
 
 }
+
+
+
+
+
 
 const bookAppointmentCallbackUrl=async(query:Record<string,any>)=>{
 

@@ -3,6 +3,7 @@ import config from "./app/config";
 import { transporter } from "./app/lib/nodemailer";
 import { prisma } from "./app/lib/prisma";
 import { client } from "./app/lib/redis";
+
 import {
   seedSuperAdmin,
   seedTesterAdmin,
